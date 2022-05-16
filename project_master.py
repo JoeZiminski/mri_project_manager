@@ -9,8 +9,8 @@ import logging
 import datetime
 import paramiko
 import argparse
-from .analysis import mri_preprocessing_wrappers
-from .utils import utils
+from backend.analysis import mri_preprocessing_wrappers
+from backend.utils import utils
 import nipype.pipeline.engine as pe
 from nipype.interfaces.dcm2nii import Dcm2niix
 

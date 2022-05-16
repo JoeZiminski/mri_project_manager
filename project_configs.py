@@ -1,9 +1,6 @@
-from backend.project_master import ProjectMaster
+from project_master import ProjectMaster
 import os
 import re
-
-# TODOs
-# - test scan dates against DICOM header
 
 class Project(ProjectMaster):
     """
@@ -38,12 +35,6 @@ class Project(ProjectMaster):
         The key is the WBIC ID. This is the 5 digit number assigned to the participant by the WBIC.
         It is the code which the HPC / WBIC servers use to indicate the data set.
 
-
-# TODO: test no ses-id or sub-id fields are duplicated
-# TODO: there is no time on logs
-
-    The forked repo 7T_TUNING contains completely filled out example
-        
     """
     def __init__(self):
         super(ProjectMaster, self)
@@ -89,11 +80,10 @@ class Project(ProjectMaster):
                                 }
 
 
-#       Scan Parameters ------------------------------------------------------------------------------------------------  % TODO: expected file check no longer makes sense
-
+#       Scan Parameters ------------------------------------------------------------------------------------------------
         self.num_expected_func_files = 178
-        self.num_expected_anat_files = 240    # now this fails because we have two types
-        self.num_expected_mrs_files = 136     # now this fails because we have two types
+        self.num_expected_anat_files = 240
+        self.num_expected_mrs_files = 136      # TODO: handle scenario with two different MRS (v1 and thalamus) scans
         self.num_expected_mpm_files = None
         self.num_expected_b0_files = 1
         self.num_expected_b1_files = 1
@@ -104,7 +94,7 @@ class Project(ProjectMaster):
 
             "33871": {"sub_id": "sub-001",
                       "lab_id": "3603",
-                      "scans": {"scan_1": {"date": "20220414",  # This scan was written off due to poor shimming.
+                      "scans": {"scan_1": {"date": "20220414",      # This scan was written off due to poor shimming.
                                            "ses_id": "ses-001",     # We used second slot for testing the shimming.
                                            "zk_id": "zk22w7_044",
                                            "time_start": "09:30",
@@ -112,84 +102,6 @@ class Project(ProjectMaster):
                                        },
                                 },
                      },
-
-            "33881": {"sub_id": "sub-002",
-                      "lab_id": "3622",
-                      "scans": {"scan_0": {"date": "20220414",  # This scan was written off due to poor shimming.
-                                           "ses_id": "ses-000",
-                                           "zk_id": "zk22w7_045",
-                                           "time_start": "12:45",
-                                           "flags": [],
-                                       },
-
-                                "scan_1": {"date": "20220422",
-                                           "ses_id": "ses-001",
-                                           "zk_id": "zk22w7_049",
-                                           "time_start": "12:45",
-                                           "flags": [],
-                                       },
-
-                                "scan_2": {"date": "20220503",
-                                           "ses_id": "ses-002",
-                                           "zk_id": "zk22w7_053",
-                                           "time_start": "09:30",
-                                           "flags": [],
-                                       },
-                                },
-                            },
-
-            "33526": {"sub_id": "sub-003",
-                      "lab_id": "3594",
-                      "scans": {"scan_1": {"date": "20220422",
-                                           "ses_id": "ses-001",
-                                           "zk_id": "zk22w7_048",
-                                           "time_start": "09:30",
-                                           "flags": [],
-                                           },
-
-                                "scan_2": {"date": "20220428",
-                                           "ses_id": "ses-002",
-                                           "zk_id": "zk22w7_050",
-                                           "time_start": "09:30",
-                                           "flags": [],
-                                           },
-                                },
-                      },
-
-            "33386": {"sub_id": "sub-004",
-                      "lab_id": "3566",
-                      "scans": {"scan_1": {"date": "20220421",
-                                           "ses_id": "ses-001",
-                                           "zk_id": "zk22w7_046",
-                                           "time_start": "14:00",
-                                           "flags": [],
-                                           },
-
-                                "scan_2": {"date": "20220428",
-                                           "ses_id": "ses-002",
-                                           "zk_id": "zk22w7_052",
-                                           "time_start": "14:45",
-                                           "flags": [],
-                                       },
-                                },
-                      },
-
-            "33964": {"sub_id": "sub-005",
-                      "lab_id": "3621",
-                      "scans": {"scan_1": {"date": "20220428",
-                                           "ses_id": "ses-001",
-                                           "zk_id": "zk22w7_051",
-                                           "time_start": "12:30",
-                                           "flags": [],
-                                           },
-                                "scan_2": {"date": "20220506",
-                                           "ses_id": "ses-002",
-                                           "zk_id": "zk22w7_058",
-                                           "time_start": "09:30",
-                                           "flags": [],
-                                           }
-                                },
-                      },
             }
 
 #       Default Attributes ---------------------------------------------------------------------------------------------
@@ -201,29 +113,3 @@ class Project(ProjectMaster):
         self.data_path = os.path.join(self.base_path, "data", "mri")
         self.raw_scans_path = os.path.join(self.data_path, "raw_scans")
         self.preprocessing_path = os.path.join(self.data_path, "preprocessing")
-
-# TODO: core limits for big jobs
-# TODO: what to do if analysis already exists...
-# TODO: currently only 1 scan names supported I think
-
-#project = Project()
-"""
-project.run_dcm2niix(sub_ids=["all"],
-                     ses_ids=["all"],
-                     run_ids=["all"],
-                     scan_names=["bold_ptx", "bold_old"],
-                     scan_type="func", slurm=True, log=True, parallel=True)
-
-project.run_dcm2niix(sub_ids=["all"],
-                     ses_ids=["all"],
-                     run_ids=["all"],
-                     scan_names=["mp2rage"],
-                     scan_type="anat", slurm=True, log=True, parallel=True)
-
-project = Project()
-project.run_recon_all(sub_ids=["all"],
-                      ses_ids=["all"],
-                      run_ids=["all"],  # TODO: test with spaces
-                      scan_names=["mp2rage"],
-                      scan_type="anat", slurm=True, log=True, parallel=True)
-"""

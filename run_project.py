@@ -1,7 +1,3 @@
-# TODO: Add 'expected scan nums' for the different can types
-# TODO: go through dcm2nii and chek if / when it will be skipped
-#
-
 from project_configs import Project
 
 # Setup Project and arguments ------------------------------------------------------------------------------------------
@@ -42,26 +38,8 @@ for wbic_id in sorted(participant_log.keys()):  # TODO: this is sorted on WBIC I
             project.run_dcm2niix(sub_ids=[sub_info["sub_id"]],
                                  ses_ids=[scan_info["ses_id"]],
                                  run_ids=["all"],
-                                 scan_names=["mp2rage"],  # TODO: this is messy and wasteful, use a single var for both  "b0", "b1", "fleet_mb", "fleet_sbref", "fleet_mb_inv", "fleet_sbref_inv"
-                                 scan_types=["anat"])  # must ensure nii exists before running recon_all  # anat
-
-    #    if run_recon_all:
-     #       project.run_recon_all(sub_ids=[sub_info["sub_id"]],
-      #                            ses_ids=[scan_info["ses_id"]],
-       #                           run_ids=["all"],
-        #                          scan_names=["mp2rage"],
-         #                         scan_types=["anat"])  # TODO: must ensure nii exists before running recon_all
+                                 scan_names=["mp2rage"])
 
 # Run Tests ------------------------------------------------------------------------------------------------------------
 
 project.run_scan_sub_order_tests()
-
-
-
-
-
-
-
-
-
-
