@@ -1,0 +1,5 @@
+1) Copy the drive or pull it to your own git repo
+2) open project_configs.py
+3) see the gitlab (currently master branch othewise a project branch) of the file for example on how to fill out. 
+4) To run, go to putty, login hivemind, go to path and run with python3 run_project.py (--help for options)
+TODO: is yizhen right handed?

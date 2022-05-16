@@ -1,0 +1,10 @@
+FOLDER_TO_CONVERT=$1;
+ARGLIST="$@";
+
+dcm2nii $ARGLIST $FOLDER_TO_CONVERT
+
+
+
+
+
+
